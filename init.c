@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:25:25 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/18 16:19:13 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:27:51 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,31 @@ void *routine(void *arg)
 	return (NULL);
 }
 
+int ft_isalive(t_philo *philos, int size)
+{
+	int i = 0;
+	while (i < size)
+	{
+		if (getcurrenttime() - philos[i].tm_brn > philos[i].tm_die)
+		{
+			*philos[i].is_alive = 0;
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 void *observer(void *arg)
 {
-	int i;
 	int size;
+	int flag = 1;
 	t_philo *philos = (t_philo *) arg;
 	size = philos[0].size;
-	while (true)
+	while (flag)
 	{
-		i = 0;
-		while (i < size)
-		{
-			if (getcurrenttime() - philos[i].tm_brn > philos[i].tm_die)
-			{
-				*philos[i].is_alive = 0;
-				break;
-			}
-			i++;
-		}
+		if(!ft_isalive(philos, size))
+			flag = 0;
 	}
 	return (NULL);
 }
