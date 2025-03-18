@@ -14,25 +14,40 @@
 
 typedef pthread_mutex_t t_mutex;
 typedef pthread_t t_thread;
+typedef struct timeval t_timeval;
 
 typedef struct s_philo
 {
-	int	id;
-	size_t tm_die;
-	size_t tm_eat;
-	size_t tm_slp;
+	int		id;
+	int		*is_alive;
+	int		size;
+	size_t	tm_die;
+	size_t	tm_eat;
+	size_t	tm_slp;
+	size_t	tm_brn;
 	t_thread thread;
 }	t_philo;
 
 typedef struct s_table
 {
-	int	is_eaten;
-	int	size;
-}	t_tabel;
+	int			is_alive;
+	int			size;
+	t_thread	checker;
+}	t_table;
+
+typedef struct s_fork
+{
+	int	id;
+	t_mutex fork;
+}	t_fork;
+
 
 //utils.c
-int ft_error(char *text);
-size_t ft_strlen(char *str);
+int		ft_error(char *text);
+int		ft_usleep(size_t m_sec);
+int		ft_print(t_philo *philo, char *str);
+size_t	ft_strlen(char *str);
+size_t	getcurrenttime(void);
 
 //atol.c
 long	ft_atol(const char *nptr);
@@ -40,4 +55,6 @@ long	ft_atol(const char *nptr);
 //validate.c
 int ft_is_valid(char **argv, int argc);
 
+//init.c
+int ft_start(t_table *table, t_philo *philo, char *argv[]);
 #endif
