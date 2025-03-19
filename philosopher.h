@@ -16,16 +16,26 @@ typedef pthread_mutex_t t_mutex;
 typedef pthread_t t_thread;
 typedef struct timeval t_timeval;
 
-typedef struct s_philo
+typedef struct s_fork
 {
 	int		id;
-	int		*is_alive;
 	int		size;
-	size_t	tm_die;
-	size_t	tm_eat;
-	size_t	tm_slp;
-	size_t	tm_brn;
-	t_thread thread;
+	t_mutex	fork;
+}	t_fork;
+
+typedef struct s_philo
+{
+	int			id;
+	int			*is_alive;
+	int			size;
+	size_t		tm_die;
+	size_t		tm_eat;
+	size_t		tm_slp;
+	size_t		tm_brn;
+	size_t		tm_lst;
+	t_fork		*fork_l;
+	t_fork		*fork_r;
+	t_thread	thread;
 }	t_philo;
 
 typedef struct s_table
@@ -34,13 +44,6 @@ typedef struct s_table
 	int			size;
 	t_thread	checker;
 }	t_table;
-
-typedef struct s_fork
-{
-	int	id;
-	t_mutex fork;
-}	t_fork;
-
 
 //utils.c
 int		ft_error(char *text);
@@ -56,5 +59,11 @@ long	ft_atol(const char *nptr);
 int ft_is_valid(char **argv, int argc);
 
 //init.c
-int ft_start(t_table *table, t_philo *philo, char *argv[]);
+int ft_start(t_table *table, t_fork *forks, t_philo *philo, char *argv[]);
+
+//actions.c
+int	ft_sleep(t_philo *philo);
+int	ft_think(t_philo *philo);
+int	ft_eat(t_philo *philo);
+
 #endif
