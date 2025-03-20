@@ -2,12 +2,13 @@ NAME = philo
 
 CMD = cc
 
-CFLAGS = -Wall -Wextra -Werror -g -pthread
+CFLAGS = -Wall -Wextra -Werror -g -pthread #-fsanitize=thread
 
 SRCS = \
 	actions.c\
 	atol.c\
 	checks.c\
+	exit.c\
 	init.c\
 	main.c\
 	utils.c\

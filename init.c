@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:25:25 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/19 05:11:51 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/20 05:42:49 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,39 +22,18 @@ int	ft_life(t_philo *philo)
 
 void	*routine(void *arg)
 {
-	t_philo *philo = (t_philo *) arg;
-	while(*philo->is_alive)
-	{
-		ft_life(philo);
-	}
-	return (NULL);
-}
+	int		flag;
+	t_philo	*philo;
 
-int	ft_isalive(t_philo *philos, int size)
-{
-	int i = 0;
-	while (i < size)
-	{
-		if (getcurrenttime() - philos[i].tm_lst > philos[i].tm_die)
-		{
-			*philos[i].is_alive = 0;
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-void	*observer(void *arg)
-{
-	int	size;
-	int	flag = 1;
-	t_philo *philos = (t_philo *) arg;
-	size = philos[0].size;
+	philo = (t_philo *) arg;
+	flag = 1;
 	while (flag)
 	{
-		if(!ft_isalive(philos, size))
+		ft_life(philo);
+		pthread_mutex_lock(philo->lck_die);
+		if (!*philo->is_alive)
 			flag = 0;
+		pthread_mutex_unlock(philo->lck_die);
 	}
 	return (NULL);
 }
@@ -63,6 +42,8 @@ int	ft_set_table(t_table *table, char *argv[])
 {
 	table->size = ft_atol(argv[1]);
 	table->is_alive = 1;
+	if ((pthread_mutex_init(&table->lck_die, NULL)) != 0)
+		return (0);
 	return (1);
 }
 
@@ -75,23 +56,25 @@ int	ft_set_forks(t_fork *forks, int size)
 	{
 		forks[i].id = i + 1;
 		forks[i].size = size;
-		if ((pthread_mutex_init(&forks[i].fork, NULL))!= 0)
+		if ((pthread_mutex_init(&forks[i].fork, NULL)) != 0)
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int ft_start(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
+int	ft_start(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 {
-	int i;
-	int size;
-	size_t	time = getcurrenttime();
-	ft_set_table(table, argv);
+	int		i;
+	int		size;
+	size_t	time;
+
 	i = 0;
+	time = getcurrenttime();
+	ft_set_table(table, argv);
 	size = table->size;
 	ft_set_forks(forks, size);
-	while(i < size)
+	while (i < size)
 	{
 		philos[i].id = i + 1;
 		philos[i].tm_die = ft_atol(argv[2]);
@@ -106,12 +89,11 @@ int ft_start(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 		else
 			philos[i].fork_r = &forks[i + 1];
 		philos[i].is_alive = &table->is_alive;
+		philos[i].lck_die = &table->lck_die;
 		i++;
 	}
-
 	if ((pthread_create(&table->checker, NULL, observer, philos)) != 0)
 		return (0);
-
 	i = 0;
 	while (i < size)
 	{
@@ -119,15 +101,13 @@ int ft_start(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 			return (0);
 		i++;
 	}
-
 	i = 0;
-	while ( i < size)
+	while (i < size)
 	{
 		if (pthread_join(philos[i].thread, NULL) != 0)
 			return (0);
 		i++;
 	}
-
 	if (pthread_join(table->checker, NULL) != 0)
 		return (0);
 	return (1);

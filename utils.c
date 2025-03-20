@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:15:29 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/19 04:40:50 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/20 05:37:11 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	ft_usleep(size_t m_sec)
 int	ft_print(t_philo *philo, char *str)
 {
 	size_t	time;
+
 	time = getcurrenttime() - philo->tm_brn;
 	printf("%zu %d %s\n", time, philo->id, str);
 	return (1);

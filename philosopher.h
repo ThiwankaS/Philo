@@ -36,6 +36,7 @@ typedef struct s_philo
 	t_fork		*fork_l;
 	t_fork		*fork_r;
 	t_thread	thread;
+	t_mutex		*lck_die;
 }	t_philo;
 
 typedef struct s_table
@@ -43,6 +44,7 @@ typedef struct s_table
 	int			is_alive;
 	int			size;
 	t_thread	checker;
+	t_mutex		lck_die;
 }	t_table;
 
 //utils.c
@@ -65,5 +67,12 @@ int ft_start(t_table *table, t_fork *forks, t_philo *philo, char *argv[]);
 int	ft_sleep(t_philo *philo);
 int	ft_think(t_philo *philo);
 int	ft_eat(t_philo *philo);
+
+//checks.c
+void	*observer(void *arg);
+int	ft_isalive(t_philo *philos, int size);
+
+//exit.c
+int	ft_exit(t_table *table, t_fork *forks,t_philo *philos);
 
 #endif
