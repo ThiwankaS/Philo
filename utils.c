@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:15:29 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/20 05:37:11 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/24 05:44:53 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ int	ft_print(t_philo *philo, char *str)
 {
 	size_t	time;
 
+	pthread_mutex_lock(philo->lck_wrt);
 	time = getcurrenttime() - philo->tm_brn;
-	printf("%zu %d %s\n", time, philo->id, str);
+	if (ft_flag(philo))
+		printf("%zu %d %s\n", time, philo->id, str);
+	pthread_mutex_unlock(philo->lck_wrt);
 	return (1);
 }

@@ -28,6 +28,7 @@ typedef struct s_philo
 	int			id;
 	int			*is_alive;
 	int			size;
+	int			meals;
 	size_t		tm_die;
 	size_t		tm_eat;
 	size_t		tm_slp;
@@ -37,6 +38,7 @@ typedef struct s_philo
 	t_fork		*fork_r;
 	t_thread	thread;
 	t_mutex		*lck_die;
+	t_mutex		*lck_wrt;
 }	t_philo;
 
 typedef struct s_table
@@ -45,6 +47,7 @@ typedef struct s_table
 	int			size;
 	t_thread	checker;
 	t_mutex		lck_die;
+	t_mutex		lck_wrt;
 }	t_table;
 
 //utils.c
@@ -58,10 +61,11 @@ size_t	getcurrenttime(void);
 long	ft_atol(const char *nptr);
 
 //validate.c
-int ft_is_valid(char **argv, int argc);
+int	ft_is_valid(char **argv, int argc);
 
 //init.c
-int ft_start(t_table *table, t_fork *forks, t_philo *philo, char *argv[]);
+int	ft_start(t_table *table, t_fork *forks, t_philo *philo, char *argv[]);
+int	ft_flag(t_philo *philo);
 
 //actions.c
 int	ft_sleep(t_philo *philo);

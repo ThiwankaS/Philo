@@ -6,11 +6,19 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 05:33:21 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/20 05:35:30 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/24 06:00:43 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+/**
+ *ft_isalive function call inside obserever thread and continuouly check the
+ *last_meal_time against the time_to_die. if (current_time - last_meal_time) is
+ *greater than time_to_die meaning the philosppher is already passed the
+ *time_to_die limit starving, the respective philospher need to die. The message
+ *will print to the terminal immidiatly and is_alive varibale set to '0'
+ **/
 
 int	ft_isalive(t_philo *philos, int size)
 {
@@ -21,6 +29,7 @@ int	ft_isalive(t_philo *philos, int size)
 	{
 		if (getcurrenttime() - philos[i].tm_lst > philos[i].tm_die)
 		{
+			ft_print(&philos[i], "died");
 			pthread_mutex_lock(philos[i].lck_die);
 			*philos[i].is_alive = 0;
 			pthread_mutex_unlock(philos[i].lck_die);
@@ -30,6 +39,12 @@ int	ft_isalive(t_philo *philos, int size)
 	}
 	return (1);
 }
+
+/**
+ * observer function is the routine fuction invoke inside observer therad. Both
+ * ft_isalive and ft_haseaten helper functions will call inside this to check
+ * the both program terminating situations.
+ **/
 
 void	*observer(void *arg)
 {
