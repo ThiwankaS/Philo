@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:25:25 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/24 05:27:49 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/25 08:12:43 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,28 @@ int	ft_life(t_philo *philo)
 *Synchronizing has made possible using the mutex_lock lck_die.
 **/
 
-int	ft_flag(t_philo *philo)
+int	ft_has_died(t_philo *philo)
 {
 	pthread_mutex_lock(philo->lck_die);
 	if (*philo->is_alive)
-		return (pthread_mutex_unlock(philo->lck_die), 1);
+	{
+		pthread_mutex_unlock(philo->lck_die);
+		return (1);
+	}
 	pthread_mutex_unlock(philo->lck_die);
 	return (0);
+}
+
+int ft_has_eaten(t_philo *philo)
+{
+	pthread_mutex_lock(philo->lck_mel);
+	if (*philo->has_eaten)
+	{
+		pthread_mutex_unlock(philo->lck_mel);
+		return (0);
+	}
+	pthread_mutex_unlock(philo->lck_mel);
+	return (1);
 }
 
 void	*routine(void *arg)
@@ -43,11 +58,10 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *) arg;
-	while (ft_flag(philo))
+	while (ft_has_died(philo) && 1)
 	{
 		ft_life(philo);
 	}
-	ft_print(philo, "died");
 	return (NULL);
 }
 
@@ -55,9 +69,12 @@ int	ft_set_table(t_table *table, char *argv[])
 {
 	table->size = ft_atol(argv[1]);
 	table->is_alive = 1;
+	table->has_eaten = 0;
 	if ((pthread_mutex_init(&table->lck_die, NULL)) != 0)
 		return (0);
 	if ((pthread_mutex_init(&table->lck_wrt, NULL)) != 0)
+		return (0);
+	if ((pthread_mutex_init(&table->lck_mel, NULL)) != 0)
 		return (0);
 	return (1);
 }
@@ -100,14 +117,17 @@ int ft_set_philos(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 		philos[i].tm_brn = time;
 		philos[i].tm_lst = time;
 		philos[i].size = size;
+		philos[i].eaten = 0;
 		philos[i].fork_l = &forks[i];
 		if (i == size - 1)
 			philos[i].fork_r = &forks[0];
 		else
 			philos[i].fork_r = &forks[i + 1];
 		philos[i].is_alive = &table->is_alive;
+		philos[i].has_eaten = &table->has_eaten;
 		philos[i].lck_die = &table->lck_die;
 		philos[i].lck_wrt = &table->lck_wrt;
+		philos[i].lck_mel = &table->lck_mel;
 		i++;
 	}
 	return (0);

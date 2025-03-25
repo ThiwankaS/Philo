@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:04:21 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/18 04:09:44 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/25 06:37:06 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_is_valid(char **argv, int argc)
 	long	args[5];
 	int		i;
 
-	i = 0;
+	i = 1;
 	args[0] = ft_atol(argv[1]);
 	args[1] = ft_atol(argv[2]);
 	args[2] = ft_atol(argv[3]);
@@ -28,12 +28,14 @@ int	ft_is_valid(char **argv, int argc)
 		args[4] = 1;
 	if (args[0] < 1 || args[0] > MAX)
 		return (0);
-	while (i < argc)
+	while (i < 4)
 	{
 		if (args[i] < 0 || args[i] > INT_MAX)
 			return (0);
 		i++;
 	}
+	if (args[4] < 1 || args[4] > INT_MAX)
+		return (0);
 	return (1);
 }
 

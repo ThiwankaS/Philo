@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 04:33:21 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/24 05:04:34 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/25 07:31:04 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,13 @@ int	ft_eat(t_philo *philo)
 	ft_print(philo, "has taken a fork");
 	pthread_mutex_lock(&philo->fork_r->fork);
 	ft_print(philo, "has taken a fork");
+	pthread_mutex_lock(philo->lck_mel);
 	time = getcurrenttime();
 	philo->tm_lst = time;
+	philo->eaten++;
 	ft_print(philo, "is eating");
 	ft_usleep(philo->tm_eat);
+	pthread_mutex_unlock(philo->lck_mel);
 	pthread_mutex_unlock(&philo->fork_l->fork);
 	pthread_mutex_unlock(&philo->fork_r->fork);
 	return (1);
