@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:25:25 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/25 08:12:43 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:14:09 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *) arg;
-	while (ft_has_died(philo) && 1)
+	while (ft_has_died(philo) && ft_has_eaten(philo))
 	{
 		ft_life(philo);
 	}

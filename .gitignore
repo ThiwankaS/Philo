@@ -1,0 +1,6 @@
+philo 			#program executable
+*.o				#object files
+philo_trace 	# test trace
+.julesstderr	# test trace
+.julestestfile	# test trace
+.julestestout	# test trace
