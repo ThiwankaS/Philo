@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 04:33:21 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/25 10:08:57 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:54:36 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,25 @@ int	ft_eat(t_philo *philo)
 {
 	size_t	time;
 
-	pthread_mutex_lock(&philo->fork_l->fork);
-	ft_print(philo, "has taken a fork");
-	pthread_mutex_lock(&philo->fork_r->fork);
-	ft_print(philo, "has taken a fork");
-	pthread_mutex_lock(philo->lck_mel);
-	time = getcurrenttime();
-	philo->tm_lst = time;
-	philo->eaten++;
-	pthread_mutex_unlock(philo->lck_mel);
-	ft_print(philo, "is eating");
-	ft_usleep(philo->tm_eat);
-	pthread_mutex_unlock(&philo->fork_l->fork);
-	pthread_mutex_unlock(&philo->fork_r->fork);
-	return (1);
+	if (philo->size > 1)
+	{
+		pthread_mutex_lock(&philo->fork_l->fork);
+		ft_print(philo, "has taken a fork");
+		pthread_mutex_lock(&philo->fork_r->fork);
+		ft_print(philo, "has taken a fork");
+		pthread_mutex_lock(philo->lck_mel);
+		time = getcurrenttime();
+		philo->tm_lst = time;
+		philo->eaten++;
+		pthread_mutex_unlock(philo->lck_mel);
+		ft_print(philo, "is eating");
+		ft_usleep(philo->tm_eat);
+		pthread_mutex_unlock(&philo->fork_l->fork);
+		pthread_mutex_unlock(&philo->fork_r->fork);
+		return (1);
+	}
+	else
+		return (0);
 }
 
 /**

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosopher.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 05:52:23 by tsomacha          #+#    #+#             */
+/*   Updated: 2025/03/27 05:53:39 by tsomacha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHER_H
 # define PHILOSOPHER_H
 
@@ -12,9 +24,9 @@
 
 # define MAX 200
 
-typedef pthread_mutex_t t_mutex;
-typedef pthread_t t_thread;
-typedef struct timeval t_timeval;
+typedef pthread_mutex_t	t_mutex;
+typedef pthread_t		t_thread;
+typedef struct timeval	t_timeval;
 
 typedef struct s_fork
 {
@@ -66,23 +78,23 @@ size_t	getcurrenttime(void);
 long	ft_atol(const char *nptr);
 
 //validate.c
-int	ft_is_valid(char **argv, int argc);
+int		ft_is_valid(char **argv, int argc);
 
 //init.c
-int	ft_start(t_table *table, t_fork *forks, t_philo *philo, char *argv[]);
-int	ft_has_died(t_philo *philo);
-int ft_has_eaten(t_philo *philo);
+int		ft_start(t_table *table, t_fork *forks, t_philo *philo, char *argv[]);
+int		ft_has_died(t_philo *philo);
+int		ft_has_eaten(t_philo *philo);
 
 //actions.c
-int	ft_sleep(t_philo *philo);
-int	ft_think(t_philo *philo);
-int	ft_eat(t_philo *philo);
+int		ft_sleep(t_philo *philo);
+int		ft_think(t_philo *philo);
+int		ft_eat(t_philo *philo);
 
 //checks.c
 void	*observer(void *arg);
-int	ft_isalive(t_philo *philos, int size);
+int		ft_isalive(t_philo *philos, int size);
 
 //exit.c
-int	ft_exit(t_table *table, t_fork *forks,t_philo *philos);
+int		ft_exit(t_table *table, t_fork *forks, t_philo *philos);
 
 #endif

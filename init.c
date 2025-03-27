@@ -6,15 +6,16 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:25:25 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/25 10:14:09 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:51:32 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
 /**
- *ft_life function is the main loop which will take each philosopher through his life cycle.
- **/
+ *ft_life function is the main loop which will take each philosopher through
+ * his life cycle.
+*/
 
 int	ft_life(t_philo *philo)
 {
@@ -24,10 +25,11 @@ int	ft_life(t_philo *philo)
 	return (1);
 }
 /**
-*ft_flag functio is always check the is_alive value, default value set during the initializing
-*statge in '1'. As soon as a philosopher died this value set to '0'.
+*ft_flag functio is always check the is_alive value, default value set
+*during the initializing statge in '1'. As soon as a philosopher died this
+*value set to '0'.
 *Synchronizing has made possible using the mutex_lock lck_die.
-**/
+*/
 
 int	ft_has_died(t_philo *philo)
 {
@@ -41,7 +43,7 @@ int	ft_has_died(t_philo *philo)
 	return (0);
 }
 
-int ft_has_eaten(t_philo *philo)
+int	ft_has_eaten(t_philo *philo)
 {
 	pthread_mutex_lock(philo->lck_mel);
 	if (*philo->has_eaten)
@@ -95,7 +97,7 @@ int	ft_set_forks(t_fork *forks, int size)
 	return (1);
 }
 
-int ft_set_philos(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
+int	ft_set_philos(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 {
 	int		i;
 	int		size;
@@ -137,7 +139,6 @@ int	ft_start(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 {
 	int		i;
 	int		size;
-
 
 	i = 0;
 	ft_set_table(table, argv);

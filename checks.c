@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 05:33:21 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/25 11:16:19 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:48:15 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	ft_isalive(t_philo *philos, int size)
 	return (1);
 }
 
-int ft_check_meal(t_philo *philos, int size)
+int	ft_check_meal(t_philo *philos, int size)
 {
-	int i;
-	int finished;
+	int	i;
+	int	finished;
 
 	i = 0;
 	finished = 0;
