@@ -6,11 +6,21 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:04:21 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/25 06:37:06 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/19 06:14:09 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+/**
+ * Validates the input arguments for the dining philosophers program
+ * Converts all arguments to long and stores in an array
+ * Sets default value for optional fifth argument if not provided
+ * Checks if the number of philosophers is within valid range (1 to MAX)
+ * Ensures time-related arguments are non-negative and within INT_MAX
+ * Validates the optional "number of meals" argument if present
+ * Returns 1 if all checks pass, otherwise returns 0
+ */
 
 int	ft_is_valid(char **argv, int argc)
 {
@@ -38,21 +48,3 @@ int	ft_is_valid(char **argv, int argc)
 		return (0);
 	return (1);
 }
-
-/*
-** ft_is_valid - Validates command-line arguments for numeric constraints.
-**
-** This function converts command-line arguments to long integers using ft_atol.
-** It then checks if each argument falls within specified numeric constraints:
-** - The first argument (args[0]) must be between 1 and MAX.
-** - All subsequent arguments must be between 0 and INT_MAX.
-** If any argument fails the constraints, the function returns 0 (invalid).
-**
-** Parameters:
-**   argv - Array of command-line argument strings.
-**   argc - Number of command-line arguments provided.
-**
-** Returns:
-**   1 if all arguments are valid according to specified constraints,
-**   0 if any argument is invalid.
-*/

@@ -6,11 +6,21 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:26:37 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/20 05:38:55 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/19 06:08:18 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+/**
+ * Main function for the dining philosophers program
+ * Checks for correct number of arguments (5 or 6)
+ * Validates the input arguments
+ * Allocates memory for philosophers and forks
+ * Initializes the simulation with ft_start
+ * Cleans up resources with ft_exit
+ * Displays error messages for invalid input or incorrect argument count
+ */
 
 int	main(int argc, char *argv[])
 {
