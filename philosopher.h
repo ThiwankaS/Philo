@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:52:23 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/27 05:53:39 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:03:57 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,11 @@ int		ft_isalive(t_philo *philos, int size);
 
 //exit.c
 int		ft_exit(t_table *table, t_fork *forks, t_philo *philos);
+
+//cycle.c
+int		ft_life(t_philo *philo);
+int		ft_has_died(t_philo *philo);
+int		ft_has_eaten(t_philo *philo);
+void	*routine(void *arg);
 
 #endif

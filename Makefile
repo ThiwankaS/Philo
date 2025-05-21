@@ -8,6 +8,7 @@ SRCS = \
 	actions.c\
 	atol.c\
 	checks.c\
+	cycle.c\
 	exit.c\
 	init.c\
 	main.c\

@@ -6,11 +6,16 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:04:21 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/05/19 06:14:09 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:14:10 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+/**
+ * Function declaration
+*/
+int	ft_is_valid(char **argv, int argc);
 
 /**
  * Validates the input arguments for the dining philosophers program
@@ -20,8 +25,7 @@
  * Ensures time-related arguments are non-negative and within INT_MAX
  * Validates the optional "number of meals" argument if present
  * Returns 1 if all checks pass, otherwise returns 0
- */
-
+*/
 int	ft_is_valid(char **argv, int argc)
 {
 	long	args[5];

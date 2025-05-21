@@ -6,67 +6,26 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:25:25 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/27 05:51:32 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:00:14 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
 /**
- *ft_life function is the main loop which will take each philosopher through
- * his life cycle.
+ * Function declaration
 */
+int	ft_set_forks(t_fork *forks, int size);
+int	ft_set_table(t_table *table, char *argv[]);
+int	ft_start(t_table *table, t_fork *forks, t_philo *philos, char *argv[]);
+int	ft_set_philos(t_table *table, t_fork *forks, t_philo *philos, char *argv[]);
 
-int	ft_life(t_philo *philo)
-{
-	ft_think(philo);
-	ft_eat(philo);
-	ft_sleep(philo);
-	return (1);
-}
 /**
-*ft_flag functio is always check the is_alive value, default value set
-*during the initializing statge in '1'. As soon as a philosopher died this
-*value set to '0'.
-*Synchronizing has made possible using the mutex_lock lck_die.
+ * Initializes the table structure with simulation parameters
+ * Sets the number of philosophers and initial simulation flags
+ * Initializes mutexes for death detection, writing, and meal tracking
+ * Returns 1 on successful initialization, 0 if any mutex initialization fails
 */
-
-int	ft_has_died(t_philo *philo)
-{
-	pthread_mutex_lock(philo->lck_die);
-	if (*philo->is_alive)
-	{
-		pthread_mutex_unlock(philo->lck_die);
-		return (1);
-	}
-	pthread_mutex_unlock(philo->lck_die);
-	return (0);
-}
-
-int	ft_has_eaten(t_philo *philo)
-{
-	pthread_mutex_lock(philo->lck_mel);
-	if (*philo->has_eaten)
-	{
-		pthread_mutex_unlock(philo->lck_mel);
-		return (0);
-	}
-	pthread_mutex_unlock(philo->lck_mel);
-	return (1);
-}
-
-void	*routine(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *) arg;
-	while (ft_has_died(philo) && ft_has_eaten(philo))
-	{
-		ft_life(philo);
-	}
-	return (NULL);
-}
-
 int	ft_set_table(t_table *table, char *argv[])
 {
 	table->size = ft_atol(argv[1]);
@@ -81,6 +40,12 @@ int	ft_set_table(t_table *table, char *argv[])
 	return (1);
 }
 
+/**
+ * Initializes the fork structures for the simulation
+ * Assigns an ID and size to each fork
+ * Initializes a mutex for each fork to handle locking during eating
+ * Returns 1 on success, 0 if any mutex initialization fails
+*/
 int	ft_set_forks(t_fork *forks, int size)
 {
 	int	i;
@@ -97,6 +62,17 @@ int	ft_set_forks(t_fork *forks, int size)
 	return (1);
 }
 
+/**
+ * Initializes philosopher structures with simulation parameters
+ * Sets philosopher IDs, time constraints (die, eat, sleep), and optional
+ * meal limit
+ * Assigns start and last meal times to current time
+ * Sets initial values such as meals eaten and total number of philosophers
+ * Assigns left and right forks
+ * (with circular reference for the last philosopher)
+ * Links shared simulation flags and mutexes from the table
+ * Returns 0 after successful initialization
+*/
 int	ft_set_philos(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 {
 	int		i;
@@ -135,6 +111,15 @@ int	ft_set_philos(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 	return (0);
 }
 
+/**
+ * Starts the dining philosophers simulation
+ * Initializes the table, forks, and philosophers with provided arguments
+ * Creates the observer thread to monitor philosopher states
+ * Creates a thread for each philosopher to run their routine
+ * Waits for all philosopher threads to finish using pthread_join
+ * Waits for the observer thread to finish as well
+ * Returns 1 on successful start and completion, 0 if any thread operation fails
+*/
 int	ft_start(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 {
 	int		i;
