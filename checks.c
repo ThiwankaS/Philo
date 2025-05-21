@@ -6,20 +6,28 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 05:33:21 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/27 05:48:15 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:50:57 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
 /**
- *ft_isalive function call inside obserever thread and continuouly check the
- *last_meal_time against the time_to_die. if (current_time - last_meal_time) is
- *greater than time_to_die meaning the philosppher is already passed the
- *time_to_die limit starving, the respective philospher need to die. The message
- *will print to the terminal immidiatly and is_alive varibale set to '0'
- **/
+ * Function declaration
+*/
+int		ft_isalive(t_philo *philos, int size);
+int		ft_check_meal(t_philo *philos, int size);
+void	*observer(void *arg);
 
+/**
+ * Checks if all philosophers are still alive
+ * Iterates through each philosopher and compares current time with their
+ * last meal time
+ * If a philosopher has exceeded their allowed time to die,
+ * prints "died" message
+ * Sets the shared is_alive flag to 0 using mutex to ensure thread safety
+ * Returns 0 if any philosopher has died, otherwise returns 1
+*/
 int	ft_isalive(t_philo *philos, int size)
 {
 	int	i;
@@ -40,6 +48,13 @@ int	ft_isalive(t_philo *philos, int size)
 	return (1);
 }
 
+/**
+ * Checks if all philosophers have eaten the required number of meals
+ * Returns 0 immediately if no meal limit is set (meals == -1)
+ * Counts how many philosophers have reached or exceeded their meal target
+ * If all have finished eating, sets the shared has_eaten flag using mutex
+ * Returns 1 if all philosophers are done eating, otherwise returns 0
+*/
 int	ft_check_meal(t_philo *philos, int size)
 {
 	int	i;
@@ -66,11 +81,14 @@ int	ft_check_meal(t_philo *philos, int size)
 }
 
 /**
- * observer function is the routine fuction invoke inside observer therad. Both
- * ft_isalive and ft_haseaten helper functions will call inside this to check
- * the both program terminating situations.
- **/
-
+ * Observer thread function to monitor the philosophers
+ * Continuously checks if any philosopher has died or if all have
+ * finished eating
+ * Calls ft_isalive to detect death and ft_check_meal to check
+ * meal completion
+ * Terminates the loop imidiately and exits the thread when
+ * either condition is met
+*/
 void	*observer(void *arg)
 {
 	int		size;

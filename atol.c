@@ -6,11 +6,16 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 03:31:49 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/05/19 06:21:51 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:56:53 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+/**
+ * Function declaration
+*/
+long	ft_atol(const char *nptr);
 
 /**
  * Converts a string to a long integer (similar to atoi but returns long)
@@ -19,8 +24,7 @@
  * Parses digits and builds the numeric result
  * Returns the signed result if the string ends properly
  * Returns an invalid value (greater than INT_MAX) if non-digit characters remain
- */
-
+*/
 long	ft_atol(const char *nptr)
 {
 	int			count;

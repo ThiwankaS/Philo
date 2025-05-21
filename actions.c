@@ -6,16 +6,22 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 04:33:21 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/03/27 05:54:36 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:56:39 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
 /**
- * philosopher's think routine function
- * **/
+ * Function declarations
+*/
+int	ft_think(t_philo *philo);
+int	ft_eat(t_philo *philo);
+int	ft_sleep(t_philo *philo);
 
+/**
+ * philosopher's think routine function
+*/
 int	ft_think(t_philo *philo)
 {
 	ft_print(philo, "is thinking");
@@ -27,8 +33,7 @@ int	ft_think(t_philo *philo)
  * and then the right fork.Synchronization has achieved by implementing forks as
  * mutex_locks.Meal time is updated using getcurrenttime, the meal time
  * considered to be the starting time of eating.
- * **/
-
+*/
 int	ft_eat(t_philo *philo)
 {
 	size_t	time;
@@ -56,8 +61,7 @@ int	ft_eat(t_philo *philo)
 
 /**
  * philosopher's sleep routine function
- * **/
-
+*/
 int	ft_sleep(t_philo *philo)
 {
 	ft_print(philo, "is sleeping");

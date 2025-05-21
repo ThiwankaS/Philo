@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:26:37 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/05/19 06:08:18 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:15:23 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
  * Initializes the simulation with ft_start
  * Cleans up resources with ft_exit
  * Displays error messages for invalid input or incorrect argument count
- */
-
+*/
 int	main(int argc, char *argv[])
 {
 	int		size;
