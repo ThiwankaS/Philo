@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:26:37 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/05/21 03:15:23 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:34:07 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ int	main(int argc, char *argv[])
 			philos = malloc(sizeof(t_philo) * size);
 			forks = malloc(sizeof(t_fork) * size);
 			if (!philos || !forks)
-				return (0);
-			ft_start(&table, forks, philos, argv);
-			ft_exit(&table, forks, philos);
+				return (ft_error("memory allocation fails!"));
+			if (ft_start(&table, forks, philos, argv))
+				return (ft_error("fail to start the simulation!"));
+			if (ft_exit(&table, forks, philos))
+				return (ft_error("simulation not exit properly!"));
 		}
 		else
 			ft_error("Invalid arguments!");

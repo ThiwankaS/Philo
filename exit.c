@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 05:36:03 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/05/21 02:57:22 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 04:15:04 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	ft_exit(t_table *table, t_fork *forks, t_philo *philos);
 int	ft_exit(t_table *table, t_fork *forks, t_philo *philos)
 {
 	if ((pthread_mutex_destroy(&table->lck_die)) != 0)
-		return (0);
+		return (1);
 	if (forks)
 		free(forks);
 	if (philos)
 		free(philos);
-	return (1);
+	return (0);
 }

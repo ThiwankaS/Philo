@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 04:25:25 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/05/21 03:00:14 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:52:58 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int	ft_set_table(t_table *table, char *argv[])
 	table->is_alive = 1;
 	table->has_eaten = 0;
 	if ((pthread_mutex_init(&table->lck_die, NULL)) != 0)
-		return (0);
+		return (ft_error("died lock initializing fail!"));
 	if ((pthread_mutex_init(&table->lck_wrt, NULL)) != 0)
-		return (0);
+		return (ft_error("write lock initializing fail!"));
 	if ((pthread_mutex_init(&table->lck_mel, NULL)) != 0)
-		return (0);
-	return (1);
+		return (ft_error("meal lock initializing fail!"));
+	return (0);
 }
 
 /**
@@ -126,7 +126,8 @@ int	ft_start(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 	int		size;
 
 	i = 0;
-	ft_set_table(table, argv);
+	if (ft_set_table(table, argv))
+		return (ft_error("table intializing fails!"));
 	size = table->size;
 	ft_set_forks(forks, size);
 	ft_set_philos(table, forks, philos, argv);
@@ -148,5 +149,5 @@ int	ft_start(t_table *table, t_fork *forks, t_philo *philos, char *argv[])
 	}
 	if (pthread_join(table->checker, NULL) != 0)
 		return (0);
-	return (1);
+	return (0);
 }
