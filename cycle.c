@@ -6,7 +6,7 @@
 /*   By: tsomacha <tsomacha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 02:58:01 by tsomacha          #+#    #+#             */
-/*   Updated: 2025/05/21 03:05:14 by tsomacha         ###   ########.fr       */
+/*   Updated: 2025/05/21 06:06:12 by tsomacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 int		ft_life(t_philo *philo);
 int		ft_has_died(t_philo *philo);
-int		ft_has_eaten(t_philo *philo);
+int		ft_is_active(t_philo *philo);
 void	*routine(void *arg);
 
 /**
@@ -26,6 +26,14 @@ void	*routine(void *arg);
 */
 int	ft_life(t_philo *philo)
 {
+	if (philo->size == 1)
+	{
+		ft_print(philo, "has taken a fork");
+		ft_usleep(philo->tm_die);
+		ft_print(philo, "died");
+		*philo->is_alive = 0;
+		return (1);
+	}
 	ft_think(philo);
 	ft_eat(philo);
 	ft_sleep(philo);
@@ -40,31 +48,37 @@ int	ft_life(t_philo *philo)
 */
 int	ft_has_died(t_philo *philo)
 {
+	pthread_mutex_lock(philo->lck_mel);
 	pthread_mutex_lock(philo->lck_die);
 	if (*philo->is_alive)
 	{
 		pthread_mutex_unlock(philo->lck_die);
+		pthread_mutex_unlock(philo->lck_mel);
 		return (1);
 	}
 	pthread_mutex_unlock(philo->lck_die);
+	pthread_mutex_unlock(philo->lck_mel);
 	return (0);
 }
 
 /**
- * Checks if all philosophers have completed their meals
- * Uses a mutex to safely read the shared has_eaten flag
- * Returns 0 if the flag is set (meals completed), 1 otherwise
+ * Checks if the philosopher should continue participating in the simulation
+ * Uses mutexes to safely read shared flags: is_alive and has_eaten
+ * Returns 1 if the philosopher is alive and not all have finished eating
+ * Returns 0 otherwise
 */
-int	ft_has_eaten(t_philo *philo)
+int	ft_is_active(t_philo *philo)
 {
+	int	alive;
+	int	not_full;
+
 	pthread_mutex_lock(philo->lck_mel);
-	if (*philo->has_eaten)
-	{
-		pthread_mutex_unlock(philo->lck_mel);
-		return (0);
-	}
+	pthread_mutex_lock(philo->lck_die);
+	alive = *philo->is_alive;
+	not_full = !(*philo->has_eaten);
+	pthread_mutex_unlock(philo->lck_die);
 	pthread_mutex_unlock(philo->lck_mel);
-	return (1);
+	return (alive && not_full);
 }
 
 /**
@@ -78,7 +92,7 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *) arg;
-	while (ft_has_died(philo) && ft_has_eaten(philo))
+	while (ft_is_active(philo))
 	{
 		ft_life(philo);
 	}
